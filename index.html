@@ -297,7 +297,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;-webkit-user-se
 
 <div id="chat-win" class="win">
 <div class="tbar"><span class="tb-ico">◉</span><span class="tt" id="chat-title">阿澈 - 聊天中</span><span class="t-min">—</span><span class="t-close" data-close="chat">✕</span></div>
-<div id="ch-head"><div class="ava he sm">澈</div><div class="ch-meta"><b>阿澈</b><i>离线 · 2005-09-14 17:42</i></div><div class="ch-tools"><span>Aa</span><span>B</span><span>I</span></div></div>
+<div id="ch-head"><div class="ava he sm">澈</div><div class="ch-meta"><b>阿澈</b><i>在线 · 2026-09-14 17:42</i></div><div class="ch-tools"><span>Aa</span><span>B</span><span>I</span></div></div>
 <div id="chat-msgs"></div>
 <div id="quick"></div>
 <div id="ch-inbar"><div class="ci-tools"><i class="ci-l">字体选择</i><i class="ci-r">表情 · 图片 · 发送</i></div><div class="ci-box">输入消息……</div></div>
@@ -790,9 +790,17 @@ await say(name+'？');
 await askOptions(['嗯。','干嘛。','你终于信了？']);
 await say(['你别开玩笑。','这号真的很多年没上了。','你真不是盗号的？']);
 await askOptions(['就是我啊。','你想多了。','我还能是谁。']);
+await say(['……','是你。','我认得出你。','你的事我全都记得。']);
+await say(['可是这不对。','这号，2005年之后，就再没亮起来过。','你现在……怎么会在这里。']);
+await meSay(['我不知道。','我打开QQ，就看到你了。','我还想问你怎么了。']);
+await say('……');
+await say('我知道是你。');
+await say('我还是有点……不太敢信。');
+await meSay('阿澈。是我。');
+await say(['嗯。','是你。']);
 await say(['……','那你这些年去哪了。']);
 await askOptions(['什么去哪了，我一直在家啊。','上学啊。','你说话怎么这么奇怪。']);
-await say(['……没事。','你那边现在几点？']);
+await say(['……没事。','你那边……今天是几号？']);
 await meSay('2005年9月14啊。');
 await say('……我这边是2026年。');
 await sleep(400);corrupt=true;qqDing();shakeChat(340);
@@ -935,7 +943,7 @@ async function endingB(){
 $('chat-win').classList.remove('grey');
 await meSay(['阿澈，我们留在这里吧。']);
 await say('什么？');
-await meSay(['我就想在这儿。','这儿有QQ，有你，有夕阳。','我不管什么失踪，不管什么二十年。','我就当今天还是2005年9月14日。','就当你还没来。','我还在河边等你。']);
+await meSay(['我就想在这儿。','这里有夕阳，有小河，最重要的是还有你。','我不管什么失踪，不管什么二十年。','我就当今天还是2005年9月14日。','就当你还没来。','我还在河边等你。']);
 await say(nickVar()+'……这对你会有伤害吗？');
 await meSay(['我不管。','阿澈。','既然你还在等我。','那我也不走。','我不让你找不到我。']);
 await say(['……','好。','我陪你。']);
