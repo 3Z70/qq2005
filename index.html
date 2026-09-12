@@ -733,7 +733,7 @@ var body=$('msg-body');
 var h='<div class="msg-note">'+t.name+' 不在线 · 离线消息</div>';
 t.groups.forEach(function(g){
 h+='<div class="chnote">'+g.t+'</div>';
-g.lines.forEach(function(txt){h+='<div class="chrow he"><div class="ava he">'+t.ava+'</div><div class="chb">'+txt+'</div></div>'});
+g.lines.forEach(function(txt){h+='<div class="chrow he"><div class="ava he">'+t.ava+'</div><div class="chb">'+txt.split('小鱼').join(name)+'</div></div>'});
 });
 h+='<div class="msg-sys">系统：该用户已离线。</div><div class="msg-sys b">最后上线：'+t.last+'。</div>';
 body.innerHTML=h;
