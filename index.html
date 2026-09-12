@@ -97,7 +97,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;-webkit-user-se
 #chat-msgs::-webkit-scrollbar{display:none}
 .chrow{display:flex;margin-bottom:10px;align-items:flex-start;animation:msgin .22s ease-out}
 .chrow.he{justify-content:flex-start}
-.chrow.me{justify-content:flex-end}
+.chrow.me{flex-direction:row-reverse;justify-content:flex-start}
 .ava{width:34px;height:34px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
 .ava.he{background:linear-gradient(#8ec9f2,#3b7cc0)}
 .ava.me{background:linear-gradient(#f7c6b8,#e58b6f)}
@@ -120,6 +120,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;-webkit-user-se
 #ch-inbar .ci-l,#ch-inbar .ci-r{font-style:normal}
 #ch-inbar .ci-r{color:#aab6c8}
 #ch-inbar .ci-box{background:#fff;border:1px solid #b9c8e4;border-radius:3px;padding:5px 8px;font-size:12px;color:#9aaac6;min-height:20px}
+#msg-body{flex:1;overflow-y:auto;padding:10px 12px;background:repeating-linear-gradient(rgba(255,255,255,0) 0 5px,rgba(220,231,248,.55) 5px 6px),#f6f9ff}
+#msg-body::-webkit-scrollbar{display:none}
+.msg-note{text-align:center;font-size:11px;color:#8a9ab8;padding:4px 0 8px}
+#msg-win .chb{max-width:86%}
 .chnote{text-align:center;font-size:11px;color:#8a9ab8;padding:4px 0;animation:msgin .3s}
 .chrow.shadow{opacity:.55}
 @keyframes msgin{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
@@ -291,6 +295,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;-webkit-user-se
 <div id="chat-msgs"></div>
 <div id="quick"></div>
 <div id="ch-inbar"><div class="ci-tools"><i class="ci-l">字体选择</i><i class="ci-r">表情 · 图片 · 发送</i></div><div class="ci-box">输入消息……</div></div>
+</div>
+
+<div id="msg-win" class="win">
+<div class="tbar"><span class="tb-ico">◉</span><span class="tt" id="msg-title">夏夏 - 离线留言</span><span class="t-close" id="msg-close">✕</span></div>
+<div id="msg-body"></div>
 </div>
 
 <div id="space-win" class="win">
@@ -466,33 +475,36 @@ res();
 });
 });
 }
+function meChar(){var s=(name||'我');return s.length>1?s.charAt(s.length-1):s.charAt(0)}
+function pinBottom(){var m=$('chat-msgs');if(!m)return;m.scrollTop=m.scrollHeight;setTimeout(function(){m.scrollTop=m.scrollHeight},0);setTimeout(function(){m.scrollTop=m.scrollHeight},90)}
+function pinWatch(){var m=$('chat-msgs');if(!m)return;new MutationObserver(pinBottom).observe(m,{childList:true,subtree:true,characterData:true});new MutationObserver(pinBottom).observe($('quick'),{attributes:true,attributeFilter:['class']})}
 function scrollSpace(){var b=$('sp-body');b.scrollTop=b.scrollHeight}
 
 function addBubble(text,who,o){
 o=o||{};
 var w=document.createElement('div');w.className='chrow '+who;
-var av=document.createElement('div');av.className='ava '+who;av.textContent=(who==='he'?'澈':(name||'我').substring(0,1));
+var av=document.createElement('div');av.className='ava '+who;av.textContent=(who==='he'?'澈':meChar());
 var b=document.createElement('div');b.className='chb'+(o.cls?(' '+o.cls):'');
 b.textContent=text;
 w.appendChild(av);w.appendChild(b);
 $('chat-msgs').appendChild(w);
-$('chat-msgs').scrollTop=$('chat-msgs').scrollHeight;
+pinBottom();
 return b;
 }
 function chatNote(t){
 var d=document.createElement('div');d.className='chnote';d.textContent=t;
-$('chat-msgs').appendChild(d);$('chat-msgs').scrollTop=$('chat-msgs').scrollHeight;
+$('chat-msgs').appendChild(d);pinBottom();
 }
 function heTyping(dur,cls){
 var w=document.createElement('div');w.className='chrow he';
 w.innerHTML='<div class="ava he">澈</div><div class="chb tping">'+(cls?'正在输入……':'正在输入')+'…</div>';
-$('chat-msgs').appendChild(w);$('chat-msgs').scrollTop=$('chat-msgs').scrollHeight;
+$('chat-msgs').appendChild(w);pinBottom();
 return new Promise(function(r){setTimeout(function(){w.remove();r()},dur)});
 }
 function meTyping(dur){
 var w=document.createElement('div');w.className='chrow me';
-w.innerHTML='<div class="ava me">'+(name||'我').substring(0,1)+'</div><div class="chb tping">正在输入…</div>';
-$('chat-msgs').appendChild(w);$('chat-msgs').scrollTop=$('chat-msgs').scrollHeight;
+w.innerHTML='<div class="ava me">'+meChar()+'</div><div class="chb tping">正在输入…</div>';
+$('chat-msgs').appendChild(w);pinBottom();
 return new Promise(function(r){setTimeout(function(){w.remove();r()},dur)});
 }
 function say(lines,o){
@@ -532,12 +544,12 @@ return sq;
 }
 function askOptions(list,big){
 return new Promise(function(res){
-var c=$('quick');c.innerHTML='';c.classList.add('on');
+var c=$('quick');c.innerHTML='';c.classList.add('on');pinBottom();
 list.forEach(function(t,i){
 var b=document.createElement('button');b.type='button';b.className='qbtn'+(big?' big':'');
 if(big){b.classList.add(i===0?'A':'B')}
 b.textContent=t;
-b.onclick=function(){c.classList.remove('on');c.innerHTML='';addBubble(t,'me');res(i)};
+b.onclick=function(){c.classList.remove('on');c.innerHTML='';addBubble(t,'me');pinBottom();res(i)};
 c.appendChild(b);
 });
 });
@@ -601,10 +613,10 @@ function askEnding(){
 return new Promise(function(res){
 var c=$('quick');c.innerHTML='';c.classList.add('on');
 c.innerHTML+='<div class="qhint">—— 这是最后一次选择 ——</div>';
-var a=document.createElement('button');a.type='button';a.className='qbtn big A';a.textContent='A · 承认 —— 我已不在';
-var b=document.createElement('button');b.type='button';b.className='qbtn big B';b.textContent='B · 停留 —— 永远 17:42';
-a.onclick=function(){c.classList.remove('on');c.innerHTML='';res(0)};
-b.onclick=function(){c.classList.remove('on');res(1)};
+var a=document.createElement('button');a.type='button';a.className='qbtn big A';a.textContent='放下';
+var b=document.createElement('button');b.type='button';b.className='qbtn big B';b.textContent='停留';
+a.onclick=function(){c.classList.remove('on');c.innerHTML='';pinBottom();res(0)};
+b.onclick=function(){c.classList.remove('on');pinBottom();res(1)};
 c.appendChild(a);c.appendChild(b);
 });
 }
@@ -675,10 +687,30 @@ else if(k==='space'){if(inFlow){openChat()}else{phase='panel';setWin('space-win'
 };
 })(closes[i]);
 }
+var TAPES=[
+{name:'夏夏',ava:'夏',lines:['……','小鱼。','2026年了。','你什么时候回来呀？','我每天放学都去老地方坐一会儿。','好多话想说，又不知道从哪说起。']},
+{name:'李老师',ava:'李',lines:['小鱼？','……','今天路过教室，看见你的座位还空着。','作业我都给你留着。','快回来吧。']},
+{name:'刘大伯',ava:'刘',lines:['闺女。','河边风大。','别老去那儿待着。','刘大爷给你留着鱼呢。','熬了汤等你。']},
+{name:'蓝雨',ava:'蓝',lines:['你的QQ我一直挂着。','密码还是你生日。','那个分组就你一个人。','……回来说句话，好不好。']}
+];
+function msgTape(i){
+var t=TAPES[i],v=$('msg-win');
+$('msg-title').textContent=t.name+' - 离线留言';
+var body=$('msg-body');body.innerHTML='<div class="msg-note">'+t.name+' 不在线 · 以下是离线留言（2026年）</div>';
+t.lines.forEach(function(txt){
+var w=document.createElement('div');w.className='chrow he';
+w.innerHTML='<div class="ava he">'+t.ava+'</div><div class="chb">'+txt+'</div>';
+body.appendChild(w);
+});
+body.scrollTop=body.scrollHeight;
+setWin('panel-win',false);setWin('msg-win',true);phase='msg';
+}
+$('msg-close').addEventListener('click',function(){setWin('msg-win',false);setWin('panel-win',true);phase='panel'});
 var offs=document.querySelectorAll('[data-offline]');
 for(var i=0;i<offs.length;i++){
-(function(b){b.onclick=function(){narrate('（'+b.querySelector('b').textContent+' 不在线。）',1800)}})(offs[i]);
+(function(b,idx){b.onclick=function(){if(phase==='panel')msgTape(idx)}})(offs[i],i);
 }
+pinWatch();
 $('ac-item').addEventListener('click',function(){if(phase==='panel'&&!storyStarted)clickAc()});
 $('pn-space').addEventListener('click',function(){openSpace('say')});
 $('pn-msg').addEventListener('click',function(){narrate('（消息盒子是空的。）',1600)});
@@ -696,7 +728,7 @@ document.addEventListener('pointerdown',function(){audio()},true);
 
 function buildSay(){
 var s=$('sp-say');
-s.innerHTML='<div class="post"><div class="ph"><div class="uava">'+(name||'鱼').substring(0,1)+'</div><div class="un">'+name+'</div></div><div class="txt">明天去河边拍片子，谁一起？</div><div class="tim">2005-09-13 22:14</div><div class="cmts"><div class="cm"><span class="ua" style="background:#3b7cc0">澈</span><b>阿澈</b>我我我</div><div class="cm"><span class="ua" style="background:#e58b6f">'+(name||'鱼').substring(0,1)+'</span><b>'+name+'</b>带你的DV</div><div class="cm"><span class="ua" style="background:#3b7cc0">澈</span><b>阿澈</b>你等着</div><div class="cm"><span class="ua" style="background:#e58b6f">'+(name||'鱼').substring(0,1)+'</span><b>'+name+'</b>等你哦</div></div><div class="ft"><span>回复</span><span>踩踩</span><span>分享</span></div></div>';
+s.innerHTML='<div class="post"><div class="ph"><div class="uava">'+meChar()+'</div><div class="un">'+name+'</div></div><div class="txt">明天去河边拍片子，谁一起？</div><div class="tim">2005-09-13 22:14</div><div class="cmts"><div class="cm"><span class="ua" style="background:#3b7cc0">澈</span><b>阿澈</b>我我我</div><div class="cm"><span class="ua" style="background:#e58b6f">'+meChar()+'</span><b>'+name+'</b>带你的DV</div><div class="cm"><span class="ua" style="background:#3b7cc0">澈</span><b>阿澈</b>你等着</div><div class="cm"><span class="ua" style="background:#e58b6f">'+meChar()+'</span><b>'+name+'</b>等你哦</div></div><div class="ft"><span>回复</span><span>踩踩</span><span>分享</span></div></div>';
 }
 
 async function runAct1(){
@@ -846,7 +878,7 @@ async function endingA(){
 chatNote('—— 你看了一眼时钟。17:42。永远。 ——');
 await meSay(['阿澈，我不在了，对吧。']);
 await say('……',{noType:true});
-await meSay(['你帮我个忙。','每年9月14，去山上看看她。','就说……我回来了。','我看了夕阳。','很好看。','还有。']);
+await meSay(['你帮我个忙。','每年9月14，帮我妈带束花。','就说……我回来了。','我看了夕阳。','很好看。']);
 await say('嗯？');
 await meSay(['你帮我跟她说。','阿澈人很好。','就是有点笨。','让他别等了。']);
 await say(nickVar()+'。');
