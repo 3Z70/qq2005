@@ -123,6 +123,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;-webkit-user-se
 #msg-body{flex:1;overflow-y:auto;padding:10px 12px;background:repeating-linear-gradient(rgba(255,255,255,0) 0 5px,rgba(220,231,248,.55) 5px 6px),#f6f9ff}
 #msg-body::-webkit-scrollbar{display:none}
 .msg-note{text-align:center;font-size:11px;color:#8a9ab8;padding:4px 0 8px}
+.msg-sys{text-align:center;font-size:11px;color:#8a9ab8;padding:3px 0}
+.msg-sys.b{color:#5a6f92;padding-bottom:8px}
 #msg-win .chb{max-width:86%}
 .chnote{text-align:center;font-size:11px;color:#8a9ab8;padding:4px 0;animation:msgin .3s}
 .chrow.shadow{opacity:.55}
@@ -283,7 +285,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;-webkit-user-se
 <div class="fr" data-offline="1"><div class="fava off">夏</div><div class="fm"><b>夏夏</b><i>离线</i></div><div class="dot off"></div></div>
 <div class="fr" data-offline="1"><div class="fava off">李</div><div class="fm"><b>李老师</b><i>离线</i></div><div class="dot off"></div></div>
 <div class="fr" data-offline="1"><div class="fava off">刘</div><div class="fm"><b>刘大伯</b><i>离线</i></div><div class="dot off"></div></div>
-<div class="fr" data-offline="1"><div class="fava off">蓝</div><div class="fm"><b>蓝雨</b><i>离线</i></div><div class="dot off"></div></div>
+<div class="fr" data-offline="1"><div class="fava off">妈</div><div class="fm"><b>妈妈</b><i>离线</i></div><div class="dot off"></div></div>
 </div>
 <div id="pn-btns"><button class="pnb" id="pn-msg">消息盒子</button><button class="pnb" id="pn-space">QQ空间</button><button class="pnb" id="pn-menu">菜单</button></div>
 <div id="pn-status">小企鹅在线 · 2005-09-14 17:42</div>
@@ -688,20 +690,50 @@ else if(k==='space'){if(inFlow){openChat()}else{phase='panel';setWin('space-win'
 })(closes[i]);
 }
 var TAPES=[
-{name:'夏夏',ava:'夏',lines:['……','小鱼。','2026年了。','你什么时候回来呀？','我每天放学都去老地方坐一会儿。','好多话想说，又不知道从哪说起。']},
-{name:'李老师',ava:'李',lines:['小鱼？','……','今天路过教室，看见你的座位还空着。','作业我都给你留着。','快回来吧。']},
-{name:'刘大伯',ava:'刘',lines:['闺女。','河边风大。','别老去那儿待着。','刘大爷给你留着鱼呢。','熬了汤等你。']},
-{name:'蓝雨',ava:'蓝',lines:['你的QQ我一直挂着。','密码还是你生日。','那个分组就你一个人。','……回来说句话，好不好。']}
+{name:'夏夏',ava:'夏',last:'2026年9月12日 00:03',groups:[
+{t:'2005-09-14 22:17',lines:['小鱼？你到家没？','阿澈说你没回去。','你看到回我一下。']},
+{t:'2005-09-15 08:32',lines:['小鱼，老师问你怎么没来。','阿澈今天没来上课。','你们俩怎么了？']},
+{t:'2005-09-16 19:45',lines:['小鱼，你别吓我。','新闻上那个……不是你吧。']},
+{t:'2005-09-20 21:03',lines:['阿姨今天来学校了。','她眼睛好肿。','你到底在哪啊。']},
+{t:'2006-06-07 23:11',lines:['小鱼，我高考完了。','我报了外地的学校。','我要走了。','你回来的时候，我不在，你别怪我。']},
+{t:'2006-09-14 17:42',lines:['一年了。','阿澈今天又去河边了。','他不让我跟着。']},
+{t:'2015-09-14 17:42',lines:['十年了。','我结婚了。','阿澈还是一个人。','我劝过他，他不听。']},
+{t:'2024-02-04 00:03',lines:['今天不知道怎么了。','突然想上线看看。','你头像还是灰的。','我都三十多了，还跟个傻子一样。']},
+{t:'2025-09-14 17:42',lines:['小鱼，阿姨走了。','阿澈去的。','他替阿姨带了花。','他比以前更不爱说话了。']},
+{t:'2026-09-12 00:03',lines:['小鱼，如果你哪天上线了……','你能不能跟阿澈说一声。','让他别等了。']}
+]},
+{name:'李老师',ava:'李',last:'2026年9月12日 01:20',groups:[
+{t:'2005-09-15 07:50',lines:['小鱼，今天怎么没来？','你家长电话打不通。','看到回我。']},
+{t:'2005-09-15 15:20',lines:['小鱼，阿澈也没来。','你们俩是不是在一起？','看到速回。']},
+{t:'2005-09-16 08:00',lines:['小鱼。','学校知道了。','你看到消息，给老师回个话。','老师不信。']},
+{t:'2005-09-20 16:30',lines:['小鱼。','你妈妈来学校了。','她一直在哭。','老师也不知道说什么。','你回来吧。']},
+{t:'2006-06-30 10:00',lines:['小鱼。','你们这届毕业了。']},
+{t:'2013-09-14 17:42',lines:['小鱼。','老师退休了。','今天路过河边。','想起你。','你以前作文写得好。','你说你想拍电影。','老师信。']},
+{t:'2026-09-12 01:20',lines:['小鱼。','老师老了。','不知道还能记得你几年。','但老师一直怀念你。']}
+]},
+{name:'刘大伯',ava:'刘',last:'2026年9月12日 00:50',groups:[
+{t:'2005-09-14 18:30',lines:['小鱼啊，你去哪里了？']},
+{t:'2005-09-14 20:15',lines:['小鱼。','警察来了。','我说你下午来买过冰棍。','你买了两根。','还说要请阿澈吃。']},
+{t:'2005-09-15 06:00',lines:['小鱼。','我一晚上没睡。','我沿着河走了一遍。','没找到你。']},
+{t:'2005-09-20 12:00',lines:['小鱼。','你妈来了。','她坐在河边。','坐了一下午。','我给她送了瓶水。','她没喝。']},
+{t:'2010-09-14 17:42',lines:['小鱼。','河边拆了。','我搬走了。','今天回来看看。','这里的冰棍还是五毛。']},
+{t:'2026-09-12 00:50',lines:['小鱼。','大伯快七十了。','铺子早就不开了。','今天不知道怎么。','突然想上来看看。','你头像还是亮的。','不对。','是灰的。','大伯眼花了。']}
+]},
+{name:'妈妈',ava:'妈',last:'2005年9月14日 17:42',groups:[
+{t:'2005-09-14 17:42',lines:['小鱼，饭做好了。','今天做了你爱吃的糖醋排骨。','你什么时候回来？']}
+]}
 ];
 function msgTape(i){
 var t=TAPES[i],v=$('msg-win');
 $('msg-title').textContent=t.name+' - 离线留言';
-var body=$('msg-body');body.innerHTML='<div class="msg-note">'+t.name+' 不在线 · 以下是离线留言（2026年）</div>';
-t.lines.forEach(function(txt){
-var w=document.createElement('div');w.className='chrow he';
-w.innerHTML='<div class="ava he">'+t.ava+'</div><div class="chb">'+txt+'</div>';
-body.appendChild(w);
+var body=$('msg-body');
+var h='<div class="msg-note">'+t.name+' 不在线 · 离线消息</div>';
+t.groups.forEach(function(g){
+h+='<div class="chnote">'+g.t+'</div>';
+g.lines.forEach(function(txt){h+='<div class="chrow he"><div class="ava he">'+t.ava+'</div><div class="chb">'+txt+'</div></div>'});
 });
+h+='<div class="msg-sys">系统：该用户已离线。</div><div class="msg-sys b">最后上线：'+t.last+'。</div>';
+body.innerHTML=h;
 body.scrollTop=body.scrollHeight;
 setWin('panel-win',false);setWin('msg-win',true);phase='msg';
 }
